@@ -21,6 +21,15 @@ export default function menu() {
   ]);
 
   k.add([
+    k.text("Watch the boy throw fruits or catch falling ones!", {
+      size: 18,
+    }),
+    k.pos(k.center().x, 250),
+    k.anchor("center"),
+    k.color(200, 200, 255),
+  ]);
+
+  k.add([
     k.text("Mango (M) → Yellow Basket", {
       size: 18,
     }),

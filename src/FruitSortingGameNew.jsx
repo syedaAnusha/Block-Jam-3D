@@ -31,7 +31,7 @@ export default function FruitSortingGame() {
           KAPLAY Fruit Sorting Game
         </h1>
         <p className="text-gray-300 text-center mt-2">
-          Watch the boy throw fruits and help sort them into baskets!
+          Sort the falling fruits into the correct colored baskets!
         </p>
       </div>
       <div
@@ -40,9 +40,7 @@ export default function FruitSortingGame() {
         style={{ width: "800px", height: "600px" }}
       />
       <div className="mt-4 text-center text-gray-400">
-        <p>
-          The boy will throw fruits - help sort them into the right baskets!
-        </p>
+        <p>Click and drag fruits to baskets or let them fall naturally</p>
         <p>Get 3 fruits in any basket to win!</p>
       </div>
     </div>
