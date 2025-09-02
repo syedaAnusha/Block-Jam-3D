@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-// src/scenes/game.js - Mobile-Responsive Fruit Catcher Game
+// src/scenes/game.js - Simple Fruit Catcher Game
 import k from "../kaplayCtx";
 
 export default function game() {
@@ -10,34 +10,21 @@ export default function game() {
   ];
   const GAME_DURATION = 60;
 
-  // Mobile detection
-  const isMobile = k.width() < 768 || "ontouchstart" in window;
-
-  // Responsive sizes
-  const fontSize = isMobile ? 20 : 24;
-  const basketSize = isMobile ? 0.8 : 1;
-  const fruitSize = isMobile ? 35 : 40;
-  const basketSpeed = isMobile ? 250 : 300;
-
   // Game state
   let score = 0;
   let timeLeft = GAME_DURATION;
   let basketColor = "yellow"; // Current basket color
-  let touchStartX = 0;
-  let lastTouchTime = 0;
 
   // Set normal cursor
   k.setCursor("default");
 
-  // Load responsive fruit sprites
+  // Load simple fruit sprites
   k.loadSprite(
     "mango",
     "data:image/svg+xml," +
       encodeURIComponent(`
-      <svg width="${fruitSize}" height="${fruitSize}" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="${fruitSize / 2}" cy="${fruitSize / 2}" r="${
-        fruitSize / 2 - 2
-      }" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
+      <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
       </svg>
     `)
   );
@@ -46,89 +33,43 @@ export default function game() {
     "orange",
     "data:image/svg+xml," +
       encodeURIComponent(`
-      <svg width="${fruitSize}" height="${fruitSize}" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="${fruitSize / 2}" cy="${fruitSize / 2}" r="${
-        fruitSize / 2 - 2
-      }" fill="#FFA500" stroke="#FF6347" stroke-width="2"/>
+      <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" fill="#FFA500" stroke="#FF6347" stroke-width="2"/>
       </svg>
     `)
   );
 
-  // Mobile-friendly UI layout
+  // Simple UI
   const scoreText = k.add([
-    k.text(`Score: ${score}`, { size: fontSize }),
-    k.pos(isMobile ? 10 : 20, isMobile ? 10 : 20),
+    k.text(`Score: ${score}`, { size: 24 }),
+    k.pos(20, 20),
     k.color(255, 255, 255),
   ]);
 
   const timeText = k.add([
-    k.text(`Time: ${timeLeft}`, { size: fontSize }),
-    k.pos(k.width() - (isMobile ? 10 : 20), isMobile ? 10 : 20),
+    k.text(`Time: ${timeLeft}`, { size: 24 }),
+    k.pos(k.width() - 20, 20),
     k.anchor("topright"),
     k.color(255, 255, 255),
   ]);
 
-  // Dynamic instruction text based on device
   const instructionText = k.add([
-    k.text(
-      isMobile
-        ? "Tap and drag to move basket"
-        : "Use A/D or Arrow Keys to move basket",
-      { size: isMobile ? 16 : 18 }
-    ),
-    k.pos(k.width() / 2, isMobile ? 50 : 60),
+    k.text("Use A/D or Arrow Keys to move basket", { size: 18 }),
+    k.pos(k.width() / 2, 60),
     k.anchor("center"),
     k.color(200, 200, 200),
   ]);
 
-  // Mobile control buttons (only show on mobile)
-  let leftButton, rightButton;
-  if (isMobile) {
-    leftButton = k.add([
-      k.rect(80, 60),
-      k.pos(20, k.height() - 80),
-      k.color(100, 100, 100),
-      k.opacity(0.7),
-      k.outline(2, [200, 200, 200]),
-      k.area(),
-      "leftButton",
-    ]);
-
-    k.add([
-      k.text("◀", { size: 30 }),
-      k.pos(60, k.height() - 50),
-      k.anchor("center"),
-      k.color(255, 255, 255),
-    ]);
-
-    rightButton = k.add([
-      k.rect(80, 60),
-      k.pos(k.width() - 100, k.height() - 80),
-      k.color(100, 100, 100),
-      k.opacity(0.7),
-      k.outline(2, [200, 200, 200]),
-      k.area(),
-      "rightButton",
-    ]);
-
-    k.add([
-      k.text("▶", { size: 30 }),
-      k.pos(k.width() - 60, k.height() - 50),
-      k.anchor("center"),
-      k.color(255, 255, 255),
-    ]);
-  }
-
   // Create the moving basket
   const basket = k.add([
     k.sprite("basket"),
-    k.pos(k.width() / 2, k.height() - (isMobile ? 120 : 100)),
+    k.pos(k.width() / 2, k.height() - 100),
     k.anchor("center"),
     k.area(),
-    k.scale(basketSize),
+    k.scale(1),
     "basket",
     {
-      speed: basketSpeed,
+      speed: 300,
       targetColor: "yellow", // What color fruit it should catch
     },
   ]);
@@ -138,103 +79,40 @@ export default function game() {
 
   // Color indicator above basket
   const colorIndicator = k.add([
-    k.text("YELLOW", { size: isMobile ? 14 : 16 }),
-    k.pos(basket.pos.x, basket.pos.y - (isMobile ? 50 : 60)),
+    k.text("YELLOW", { size: 16 }),
+    k.pos(basket.pos.x, basket.pos.y - 60),
     k.anchor("center"),
     k.color(255, 215, 0),
   ]);
 
-  // Desktop keyboard controls
+  // Basket movement controls
   k.onKeyDown("left", () => {
-    moveBasketLeft();
-  });
-
-  k.onKeyDown("right", () => {
-    moveBasketRight();
-  });
-
-  k.onKeyDown("a", () => {
-    moveBasketLeft();
-  });
-
-  k.onKeyDown("d", () => {
-    moveBasketRight();
-  });
-
-  // Movement functions
-  function moveBasketLeft() {
     if (basket.pos.x > 60) {
       basket.move(-basket.speed, 0);
       colorIndicator.pos.x = basket.pos.x;
     }
-  }
+  });
 
-  function moveBasketRight() {
+  k.onKeyDown("right", () => {
     if (basket.pos.x < k.width() - 60) {
       basket.move(basket.speed, 0);
       colorIndicator.pos.x = basket.pos.x;
     }
-  }
+  });
 
-  // Mobile touch controls
-  if (isMobile) {
-    // Touch button controls
-    k.onTouchStart((id, pos) => {
-      const leftButtonHit = leftButton && leftButton.hasPoint(pos);
-      const rightButtonHit = rightButton && rightButton.hasPoint(pos);
+  k.onKeyDown("a", () => {
+    if (basket.pos.x > 60) {
+      basket.move(-basket.speed, 0);
+      colorIndicator.pos.x = basket.pos.x;
+    }
+  });
 
-      if (leftButtonHit) {
-        leftButton.color = k.rgb(150, 150, 150); // Visual feedback
-        moveBasketLeft();
-      } else if (rightButtonHit) {
-        rightButton.color = k.rgb(150, 150, 150); // Visual feedback
-        moveBasketRight();
-      }
-    });
-
-    k.onTouchEnd((id, pos) => {
-      // Reset button colors
-      if (leftButton) leftButton.color = k.rgb(100, 100, 100);
-      if (rightButton) rightButton.color = k.rgb(100, 100, 100);
-    });
-
-    // Swipe controls
-    k.onTouchStart((id, pos) => {
-      touchStartX = pos.x;
-      lastTouchTime = k.time();
-    });
-
-    k.onTouchEnd((id, pos) => {
-      const touchEndX = pos.x;
-      const touchDuration = k.time() - lastTouchTime;
-      const swipeDistance = touchEndX - touchStartX;
-
-      // Only register as swipe if it's quick and significant
-      if (touchDuration < 0.3 && Math.abs(swipeDistance) > 50) {
-        if (swipeDistance > 0) {
-          moveBasketRight(); // Swipe right
-        } else {
-          moveBasketLeft(); // Swipe left
-        }
-      }
-    });
-
-    // Continuous touch drag
-    k.onTouchMove((id, pos) => {
-      const dragDistance = pos.x - touchStartX;
-      if (Math.abs(dragDistance) > 30) {
-        // Minimum drag distance
-        const newX =
-          basket.pos.x +
-          (dragDistance > 0 ? basket.speed * k.dt() : -basket.speed * k.dt());
-        if (newX > 60 && newX < k.width() - 60) {
-          basket.pos.x = newX;
-          colorIndicator.pos.x = basket.pos.x;
-        }
-        touchStartX = pos.x; // Update for continuous dragging
-      }
-    });
-  }
+  k.onKeyDown("d", () => {
+    if (basket.pos.x < k.width() - 60) {
+      basket.move(basket.speed, 0);
+      colorIndicator.pos.x = basket.pos.x;
+    }
+  });
 
   // Function to change basket color randomly
   function changeBasketColor() {

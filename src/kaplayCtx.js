@@ -1,8 +1,13 @@
 import kaplay from "kaplay";
 
+// Detect mobile and set responsive dimensions
+const isMobile = window.innerWidth < 768 || "ontouchstart" in window;
+const gameWidth = isMobile ? Math.min(window.innerWidth, 480) : 800;
+const gameHeight = isMobile ? Math.min(window.innerHeight, 640) : 600;
+
 const k = kaplay({
-  width: 800,
-  height: 600,
+  width: gameWidth,
+  height: gameHeight,
   letterbox: true,
   background: [135, 206, 235], // Sky blue
   global: false,
@@ -12,6 +17,7 @@ const k = kaplay({
     },
   },
   touchToMouse: true,
+  crisp: true, // Better pixel rendering on mobile
   debug: false,
 });
 
