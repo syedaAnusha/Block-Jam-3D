@@ -10,8 +10,10 @@ export default function game() {
   ];
   const GAME_DURATION = 60;
 
-  // Mobile detection
-  const isMobile = k.width() < 768 || "ontouchstart" in window;
+  // Mobile detection - safe for SSR
+  const isMobile =
+    k.width() < 768 ||
+    (typeof window !== "undefined" && "ontouchstart" in window);
 
   // Responsive sizes
   const fontSize = isMobile ? 20 : 24;

@@ -8,12 +8,20 @@ export default function FruitSortingGame() {
   const gameInitialized = useRef(false);
 
   useEffect(() => {
-    if (!gameRef.current || gameInitialized.current) return;
+    // Ensure we're in a browser environment
+    if (
+      typeof window === "undefined" ||
+      !gameRef.current ||
+      gameInitialized.current
+    )
+      return;
 
     // Mount KAPLAY to our canvas
     const gameContainer = gameRef.current;
-    gameContainer.appendChild(k.canvas);
-    gameInitialized.current = true;
+    if (k.canvas) {
+      gameContainer.appendChild(k.canvas);
+      gameInitialized.current = true;
+    }
 
     // Cleanup function
     return () => {

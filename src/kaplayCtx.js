@@ -1,7 +1,9 @@
 import kaplay from "kaplay";
 
-// Detect mobile and set responsive dimensions
-const isMobile = window.innerWidth < 768 || "ontouchstart" in window;
+// Safe browser environment check for SSR compatibility
+const isBrowser = typeof window !== "undefined";
+const isMobile =
+  isBrowser && (window.innerWidth < 768 || "ontouchstart" in window);
 const gameWidth = isMobile ? Math.min(window.innerWidth, 480) : 800;
 const gameHeight = isMobile ? Math.min(window.innerHeight, 640) : 600;
 
