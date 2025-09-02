@@ -33,25 +33,59 @@ export default function FruitSortingGame() {
   }, []);
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-900">
-      <div className="mb-4">
-        <h1 className="text-3xl font-bold text-white text-center">
-          KAPLAY Fruit Sorting Game
+    <div
+      style={{
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#1a1a1a",
+      }}
+    >
+      <div style={{ marginBottom: "1rem" }}>
+        <h1
+          style={{
+            fontSize: "2rem",
+            fontWeight: "bold",
+            color: "white",
+            textAlign: "center",
+            margin: 0,
+          }}
+        >
+          Mobile Fruit Catcher Game
         </h1>
-        <p className="text-gray-300 text-center mt-2">
-          Watch the boy throw fruits and help sort them into baskets!
+        <p
+          style={{
+            color: "#ccc",
+            textAlign: "center",
+            margin: "0.5rem 0 0 0",
+          }}
+        >
+          Catch the falling fruits in the matching colored basket!
         </p>
       </div>
       <div
         ref={gameRef}
-        className="border-2 border-gray-600 rounded-lg shadow-lg"
-        style={{ width: "800px", height: "600px" }}
+        style={{
+          border: "2px solid #666",
+          borderRadius: "8px",
+          boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
+          maxWidth: "100%",
+          maxHeight: "80vh",
+        }}
       />
-      <div className="mt-4 text-center text-gray-400">
-        <p>
-          The boy will throw fruits - help sort them into the right baskets!
+      <div
+        style={{
+          marginTop: "1rem",
+          textAlign: "center",
+          color: "#999",
+        }}
+      >
+        <p style={{ margin: 0, fontSize: "0.875rem" }}>
+          Desktop: Use A/D or Arrow Keys | Mobile: Touch controls
         </p>
-        <p>Get 3 fruits in any basket to win!</p>
       </div>
     </div>
   );

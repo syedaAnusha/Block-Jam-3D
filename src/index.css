@@ -1,1 +1,16 @@
-@import "tailwindcss";
+/* Basic styles for the game */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #87ceeb;
+  font-family: Arial, sans-serif;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #87ceeb 0%, #98e4ff 100%);
+}
